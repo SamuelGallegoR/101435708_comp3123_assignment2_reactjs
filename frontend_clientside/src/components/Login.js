@@ -16,11 +16,9 @@ function Login() {
             localStorage.setItem('userInfo', JSON.stringify(response.data.user)); // Save user info
             navigate('/employees');
         } catch (err) {
-            console.error('Login failed:', err.response?.data?.message);
+            setError(err.response?.data?.message || 'Invalid credentials. Please try again.'); // Set error message
         }
     };
-    
-    
 
     return (
         <div className="container mt-5">

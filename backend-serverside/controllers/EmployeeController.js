@@ -1,20 +1,36 @@
 // controllers/employeeController.js
 const Employee = require('../models/EmployeeModel');
 
+
 const getEmployees = async (req, res) => {
   try {
-    const { department, position, sortBy } = req.query;
-    const query = {};
+      const { q } = req.query;
+      let query = {};
 
-    if (department) query.department = department;
-    if (position) query.position = position;
+      // Build query based on 'q'
+      if (q) {
+          const isObjectId = /^[0-9a-fA-F]{24}$/.test(q); // Check if 'q' is a valid MongoDB ObjectId
+          query = {
+              $or: [
+                  { first_name: { $regex: q, $options: 'i' } },
+                  { last_name: { $regex: q, $options: 'i' } },
+                  { department: { $regex: q, $options: 'i' } },
+                  ...(isObjectId ? [{ _id: q }] : []) // Include '_id' only if 'q' is valid
+              ]
+          };
+      }
 
-    const employees = await Employee.find(query).sort(sortBy ? { [sortBy]: 1 } : {});
-    res.status(200).json(employees);
+      const employees = await Employee.find(query);
+      res.status(200).json(employees);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching employees' });
+      console.error('Error fetching employees:', error.message);
+      res.status(500).json({ message: 'Error fetching employees' });
   }
 };
+
+
+
+
 
 
 

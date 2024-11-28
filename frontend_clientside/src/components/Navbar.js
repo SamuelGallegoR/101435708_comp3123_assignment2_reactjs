@@ -20,7 +20,11 @@ function Navbar() {
             <div className="container">
                 <Link
                     className="navbar-brand"
-                    to={isLoggedIn ? "/employees" : "/"}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigate(isLoggedIn ? "/employees" : "/");
+                    }}
+                    style={{ cursor: "pointer", color: "white", textDecoration: "none" }}
                 >
                     Employee Manager
                 </Link>
