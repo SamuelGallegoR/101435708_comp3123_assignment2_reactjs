@@ -5,7 +5,7 @@ const userRoutes = require('./routes/UserRoute');
 const employeeRoutes = require('./routes/EmployeeRoute');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Connect to MongoDB
 connectDB();
