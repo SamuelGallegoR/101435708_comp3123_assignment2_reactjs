@@ -1,20 +1,22 @@
 # Use Node.js base image
 FROM node:18
 
-# Set working directory
+# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Copy only package files and install dependencies
 COPY package*.json ./
+RUN npm ci # Prefer npm ci for consistency
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
+# Copy the application code
 COPY . .
 
 # Expose the backend port
 EXPOSE 3001
+
+# Define environment variables for production
+ENV NODE_ENV=production
+ENV MONGO_URI=mongodb://mongo:27017/employeeManagerDB
 
 # Start the application
 CMD ["npm", "start"]

@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function CurrentUser() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (!isLoggedIn) {
+            navigate('/'); 
+        }
+    }, [navigate]);
 
     const handleBack = () => {
         navigate('/employees'); // Navigate back to Employee List
@@ -29,7 +36,7 @@ function CurrentUser() {
                             <p><strong>Email:</strong> {userInfo.email}</p>
                         </div>
                     ) : (
-                        <p className="text-danger text-center">No user information available.</p>
+                        <p className="text-danger text-center">No user information available. Please log in again.</p>
                     )}
                     <div className="d-flex justify-content-between mt-4">
                         <button className="btn btn-secondary" onClick={handleBack}>
@@ -46,3 +53,4 @@ function CurrentUser() {
 }
 
 export default CurrentUser;
+

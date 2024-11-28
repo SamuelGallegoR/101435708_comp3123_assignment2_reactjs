@@ -12,14 +12,14 @@ function Login() {
         e.preventDefault();
         try {
             const response = await axios.post('/api/v1/user/login', { email, password });
-            // Save user info to localStorage
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userInfo', JSON.stringify(response.data.user)); // Make sure backend sends 'user'
+            localStorage.setItem('userInfo', JSON.stringify(response.data.user)); // Save user info
             navigate('/employees');
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed');
+            console.error('Login failed:', err.response?.data?.message);
         }
     };
+    
     
 
     return (

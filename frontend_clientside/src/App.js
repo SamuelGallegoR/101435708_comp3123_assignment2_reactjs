@@ -6,7 +6,7 @@ import EmployeeList from './components/EmployeeList';
 import EmployeeDetails from './components/EmployeeDetails';
 import AddEmployee from './components/AddEmployee';
 import UpdateEmployee from './components/UpdateEmployee';
-import CurrentUser from './components/CurrentUser'; // Import CurrentUser component
+import CurrentUser from './components/CurrentUser'; 
 import Navbar from './components/Navbar';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
                 <Route path="/employees/add" element={<AddEmployee />} />
                 <Route path="/employees/:id" element={<EmployeeDetails />} />
                 <Route path="/employees/:id/edit" element={<UpdateEmployee />} />
-                <Route path="/profile" element={<CurrentUser />} /> {/* Add profile route */}
+                <Route path="/profile" element={<CurrentUser />} />
             </Routes>
         </Router>
     );
