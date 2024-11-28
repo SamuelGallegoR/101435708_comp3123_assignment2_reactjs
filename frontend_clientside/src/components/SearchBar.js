@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 function SearchBar({ onSearch }) {
     const [query, setQuery] = useState('');
 
-    const handleSearch = () => {
-        onSearch(query);
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setQuery(value);
+        onSearch(value); // Trigger the search on every input change
     };
 
     return (
@@ -12,11 +14,14 @@ function SearchBar({ onSearch }) {
             <input
                 type="text"
                 className="form-control"
-                placeholder="Search by name, department, or ID"
+                placeholder="Search employees"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={handleInputChange}
             />
-            <button className="btn btn-primary" onClick={handleSearch}>
+            <button
+                className="btn btn-secondary"
+                onClick={() => onSearch(query)}
+            >
                 Search
             </button>
         </div>

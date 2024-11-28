@@ -11,6 +11,9 @@ RUN npm ci # Prefer npm ci for consistency
 # Copy the application code
 COPY . .
 
+# Seed data
+RUN node seed.js
+
 # Expose the backend port
 EXPOSE 3001
 

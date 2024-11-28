@@ -1,38 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import SearchBar from './SearchBar'; // Assuming you have a separate SearchBar component
 import { Link } from 'react-router-dom';
-import SearchBar from './SearchBar';
 
 function EmployeeList() {
     const [employees, setEmployees] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(''); // Track the search query
 
-    useEffect(() => {
-        fetchEmployees(); // Fetch all employees initially
-    }, []);
-
+    // Function to fetch employees
     const fetchEmployees = async (query = '') => {
         try {
-            const response = await axios.get(`/api/v1/emp/employees?q=${query}`);
-            setEmployees(response.data); 
+            const response = await axios.get(`/api/v1/emp/employees${query ? `?q=${query}` : ''}`);
+            setEmployees(response.data);
         } catch (err) {
-            console.error('Error fetching employees:', err.message);
-            alert('Error fetching employees');
+            console.error('Error fetching employees', err);
         }
     };
-    
 
+    // Fetch all employees initially
+    useEffect(() => {
+        fetchEmployees();
+    }, []);
+
+    // Handle search
     const handleSearch = (query) => {
-        fetchEmployees(query);
+        setSearchQuery(query); // Update the search query state
+        if (query.trim() === '') {
+            fetchEmployees(); // Fetch all employees if the search query is empty
+        } else {
+            fetchEmployees(query);
+        }
     };
 
     return (
         <div className="container mt-5">
             <h1 className="text-center mb-4">Employee List</h1>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-                <Link to="/employees/add" className="btn btn-primary">
-                    Add Employee
-                </Link>
-                <div style={{ width: '50%' }}>
+            <div className="row mb-3">
+                <div className="col-md-6 d-flex align-items-center">
+                    <Link to="/employees/add" className="btn btn-primary">Add Employee</Link>
+                </div>
+                <div className="col-md-6">
                     <SearchBar onSearch={handleSearch} />
                 </div>
             </div>
